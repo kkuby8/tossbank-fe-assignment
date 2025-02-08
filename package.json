@@ -1,0 +1,60 @@
+{
+  "name": "frontend-assignment-employment-contract",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:test": "NEXT_PUBLIC_DISABLE_MSW=false next dev",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@radix-ui/react-radio-group": "^1.1.3",
+    "@radix-ui/react-visually-hidden": "^1.0.3",
+    "axios": "^1.6.5",
+    "classnames": "^2.5.1",
+    "keen-slider": "^6.8.6",
+    "msw": "^2.1.0",
+    "nanoid": "^5.0.4",
+    "next": "14.1.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "sass": "^1.69.7",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@emotion/babel-preset-css-prop": "^11.11.0",
+    "@mswjs/storage": "^0.1.0",
+    "@playwright/test": "^1.50.0",
+    "@storybook/addon-essentials": "^7.6.10",
+    "@storybook/addon-interactions": "^7.6.10",
+    "@storybook/addon-links": "^7.6.10",
+    "@storybook/addon-onboarding": "^1.0.11",
+    "@storybook/addon-storysource": "^7.6.10",
+    "@storybook/blocks": "^7.6.10",
+    "@storybook/nextjs": "^7.6.10",
+    "@storybook/react": "^7.6.10",
+    "@storybook/test": "^7.6.10",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "playwright-msw": "^3.0.1",
+    "prettier": "^3.2.4",
+    "storybook": "^7.6.12",
+    "typescript": "^5"
+  },
+  "msw": {
+    "workerDirectory": "public"
+  }
+}

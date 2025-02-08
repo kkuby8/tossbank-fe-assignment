@@ -1,0 +1,25 @@
+@use "sass:math";
+
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return math.div($number, $number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@mixin _typography($name, $font-size, $line-height, $skeleton-border-radius) {
+  $font-size-number: strip-unit($font-size);
+
+  .typography-#{$name},
+  .font-size--#{$font-size-number} {
+    font-size: $font-size;
+    font-size: var(--toss-font-size-#{$font-size-number});
+    line-height: $line-height;
+    line-height: var(--toss-line-height-#{$font-size-number});
+  }
+}
+
+@include _typography('large', 20px, 1.45, 6px);
+@include _typography('medium', 17px, 1.5, 5.5px);
+@include _typography('small', 15px, 1.5, 5px);
