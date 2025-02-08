@@ -3,8 +3,42 @@ import { List } from "components/List";
 import { SelectBottomSheet } from "components/SelectBottomSheet";
 import { Txt } from "components/Txt";
 import { colors } from "constants/colors";
+import { Contract, ContractStatus } from "models";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { getContractsAPI } from "remotes";
 
-export default function IndexPage() {
+/**
+ * 계약서 목록 페이지
+ */
+
+export default function ContractsListPage() {
+  const router = useRouter();
+
+  // 계약서 목록 상태 저장
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [filteredContracts, setFilteredContracts] = useState<Contract[]>([]);
+  const [status, setStatus] = useState<ContractStatus | "ALL">("ALL");
+
+  // API 호출 (최초 실행)
+  useEffect(() => {
+    getContractsAPI().then((data) => {
+      setContracts(data);
+      setFilteredContracts(data);
+    });
+  }, []);
+
+  // 상태 변경 시 필터링
+  useEffect(() => {
+    if (status === "ALL") {
+      setFilteredContracts(contracts);
+    } else {
+      setFilteredContracts(
+        contracts.filter((contract) => contract.status === status)
+      );
+    }
+  }, [status, contracts]);
+
   return (
     <>
       <Txt
@@ -17,28 +51,46 @@ export default function IndexPage() {
       <SelectBottomSheet
         css={{ padding: "0 24px" }}
         title="상태"
-        onChange={(value) => {
-          console.log(value);
-        }}
-        value={""}
+        onChange={(value) => setStatus(value)}
+        value={status}
       >
-        <SelectBottomSheet.Option value="">전체</SelectBottomSheet.Option>
+        <SelectBottomSheet.Option value="ALL">전체</SelectBottomSheet.Option>
+        <SelectBottomSheet.Option value="WRITING">
+          작성중
+        </SelectBottomSheet.Option>
+        <SelectBottomSheet.Option value="COMPLETED">
+          계약 완료
+        </SelectBottomSheet.Option>
       </SelectBottomSheet>
       <List css={{ marginTop: "16px" }}>
-        <List.Row
-          iconName="icon-document-lines"
-          topText="쓰레기 비우기"
-          right={<Txt color={colors.grey700}>작성중</Txt>}
-          withArrow={true}
-        />
-        <List.Row
-          iconName="icon-document-lines"
-          topText="물건 정리"
-          right={<Txt color={colors.grey700}>계약 완료</Txt>}
-          withArrow={false}
-        />
+        {filteredContracts.map((contract) => (
+          <List.Row
+            key={contract.id}
+            iconName="icon-document-lines"
+            topText={contract.title}
+            right={
+              <Txt color={colors.grey700}>
+                {contract.status === "WRITING" ? "작성중" : "계약 완료"}
+              </Txt>
+            }
+            withArrow={true}
+            onClick={() => {
+              if (contract.status === "WRITING") {
+                router.push(`/${contract.id}/edit`);
+              } else {
+                router.push(`/${contract.id}`);
+              }
+            }}
+          />
+        ))}
       </List>
-      <FixedBottomCTA>계약서 만들기</FixedBottomCTA>
+      <FixedBottomCTA
+        onClick={() => {
+          router.push("/create");
+        }}
+      >
+        계약서 만들기
+      </FixedBottomCTA>
     </>
   );
 }
