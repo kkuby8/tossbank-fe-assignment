@@ -6,7 +6,7 @@ import { AppProps } from "next/app";
 import { GlobalPortal } from "../src/components/GlobalPortal";
 
 import "../src/sass/app.scss";
-import "./index.css";
+import "../styles/globals.css";
 import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
